@@ -59,60 +59,60 @@ fun UsageSelectionScreen(onClick: (UsageType) -> Unit) {
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_TYPE_DEVICE_INFORMATION)
             }) {
-                Text(text = "获取设备信息")
+                Text(text = "Get device information")
             }
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_TYPE_AUDIO)
             }) {
-                Text(text = "使用音频")
+                Text(text = "Use audio")
             }
 
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_TYPE_PHOTO)
             }) {
-                Text(text = "拍照")
+                Text(text = "Take photo")
             }
 
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_TYPE_VIDEO)
             }) {
-                Text(text = "录像")
+                Text(text = "Record video")
             }
 
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_TYPE_FILE)
             }) {
-                Text(text = "媒体文件处理")
+                Text(text = "Media file handling")
             }
 
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_CUSTOM_VIEW)
             }) {
-                Text(text = "自定义View")
+                Text(text = "Custom View")
             }
 
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_TYPE_CUSTOM_PROTOCOL)
             }) {
-                Text(text = "自定义协议")
+                Text(text = "Custom protocol")
             }
 
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_TYPE_AI)
             }) {
-                Text(text = "AI 场景")
+                Text(text = "AI scenarios")
             }
 
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_TYPE_TELEPROMPTER)
             }) {
-                Text(text = "提词器 场景")
+                Text(text = "Teleprompter scenarios")
             }
 
             Button(modifier = Modifier.fillMaxWidth(), onClick = {
                 onClick(UsageType.USAGE_TYPE_TRANSLATION)
             }) {
-                Text(text = "翻译 场景")
+                Text(text = "Translation scenarios")
             }
 
         }

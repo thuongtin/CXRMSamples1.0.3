@@ -70,14 +70,14 @@ fun CustomViewScreen(viewModel: CustomViewViewModel, uploadIcons: () -> Unit) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "自定义页面", modifier = Modifier.padding(top = 32.dp, bottom = 8.dp))
+            Text(text = "Custom page", modifier = Modifier.padding(top = 32.dp, bottom = 8.dp))
 
             if(!iconSent) {
                 Button(
                     onClick = { uploadIcons() },
                     modifier = Modifier.padding(vertical = 8.dp)
                 ) {
-                    Text("上传图像")
+                    Text("Upload images")
                 }
             }else {
 
@@ -87,14 +87,14 @@ fun CustomViewScreen(viewModel: CustomViewViewModel, uploadIcons: () -> Unit) {
                     },
                     modifier = Modifier.padding(vertical = 8.dp)
                 ) {
-                    Text(if (isCustomViewOpen) "关闭自定义页面" else "打开自定义页面")
+                    Text(if (isCustomViewOpen) "Close custom page" else "Open custom page")
                 }
                 if (isCustomViewOpen) {
                     Button(
                         onClick = { viewModel.updateCustomView() },
                         modifier = Modifier.padding(vertical = 8.dp)
                     ) {
-                        Text("更新自定义界面")
+                        Text("Update custom UI")
                     }
                 }
             }

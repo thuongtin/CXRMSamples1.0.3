@@ -104,16 +104,16 @@ class CustomViewViewModel: ViewModel() {
 
     fun toggleCustomView() {
         if (!_isCustomViewRunning.value){
-            // 开启自定义View
+            // Open custom View
             CxrApi.getInstance().openCustomView(selfView.toJson())
         }else{
-            // 关闭自定义View
+            // Close custom View
             CxrApi.getInstance().closeCustomView()
         }
     }
     private var count = 0
     fun updateCustomView() {
-        Log.d(TAG, "updateSelfView: 更新自定义视图, 当前计数: $count")
+        Log.d(TAG, "updateSelfView: updating custom view, current count: $count")
         val updateViewJson = if (count % 2 == 0){
             UpdateViewJson().apply {
                 updateList.add(UpdateViewJson.UpdateJson(id = "imageView").apply {
@@ -157,18 +157,17 @@ class CustomViewViewModel: ViewModel() {
         if (count >= Int.MAX_VALUE){
             count = 1
         }
-        Log.d(TAG, "updateSelfView: 发送更新配置")
+        Log.d(TAG, "updateSelfView: sending updated configuration")
         CxrApi.getInstance().updateCustomView(updateViewJson.toJson())
-        Log.d(TAG, "updateSelfView: 自定义视图已更新")
+        Log.d(TAG, "updateSelfView: custom view updated")
     }
 
     /**
-     * 上传图标资源
-     * 包括icon1.png和vector.png两个图标
+     * Upload icon resources, including the icon1.png and vector.png icons.
      */
     fun uploadIcon(context: Context) {
         try {
-            Log.d(TAG, "uploadIcon: 开始上传图标资源")
+            Log.d(TAG, "uploadIcon: start uploading icon resources")
             // Convert icon1.png to Base64
             val icon1Drawable = context.resources.getDrawable(R.drawable.icon1, null)
             val icon1Bitmap = drawableToBitmap(icon1Drawable)
@@ -176,7 +175,7 @@ class CustomViewViewModel: ViewModel() {
             icon1Bitmap.compress(Bitmap.CompressFormat.PNG, 100, icon1OutputStream)
             val icon1Base64 = Base64.encodeToString(icon1OutputStream.toByteArray(), Base64.NO_WRAP)
             icon1OutputStream.close()
-            Log.d(TAG, "uploadIcon: icon1.png转换完成")
+            Log.d(TAG, "uploadIcon: icon1.png converted")
 
             // Convert vector.png to Base64
             val vectorDrawable = context.resources.getDrawable(R.drawable.vector, null)
@@ -185,7 +184,7 @@ class CustomViewViewModel: ViewModel() {
             vectorBitmap.compress(Bitmap.CompressFormat.PNG, 100, vectorOutputStream)
             val vectorBase64 = Base64.encodeToString(vectorOutputStream.toByteArray(), Base64.NO_WRAP)
             vectorOutputStream.close()
-            Log.d(TAG, "uploadIcon: vector.png转换完成")
+            Log.d(TAG, "uploadIcon: vector.png converted")
 
             // Create IconInfo objects
             val icon1Info = IconInfo("icon1", icon1Base64)
@@ -193,33 +192,33 @@ class CustomViewViewModel: ViewModel() {
 
             // Send icons using CXR API
             CxrApi.getInstance().sendCustomViewIcons(listOf(icon1Info, vectorInfo))
-            Log.d("SelfDesignViewActivity", "uploadIcon: 图标发送成功")
-            Log.d(TAG, "uploadIcon: 图标上传完成")
+            Log.d("SelfDesignViewActivity", "uploadIcon: icons sent successfully")
+            Log.d(TAG, "uploadIcon: icon upload completed")
         } catch (e: Exception) {
-            Log.e("SelfDesignViewActivity", "uploadIcon: 图标发送失败", e)
-            Log.e(TAG, "uploadIcon: 图标上传异常", e)
+            Log.e("SelfDesignViewActivity", "uploadIcon: failed to send icons", e)
+            Log.e(TAG, "uploadIcon: exception while uploading icons", e)
         }
     }
 
     /**
-     * 将Drawable对象转换为Bitmap对象
-     * @param drawable 需要转换的Drawable对象
-     * @return 转换后的Bitmap对象
+     * Convert a Drawable object into a Bitmap object.
+     * @param drawable the Drawable to convert
+     * @return the converted Bitmap
      */
     private fun drawableToBitmap(drawable: Drawable): Bitmap {
         if (drawable is BitmapDrawable) {
-            Log.d(TAG, "drawableToBitmap: Drawable已经是BitmapDrawable类型")
+            Log.d(TAG, "drawableToBitmap: Drawable is already a BitmapDrawable")
             return drawable.bitmap
         }
 
-        Log.d(TAG, "drawableToBitmap: 将Drawable转换为Bitmap")
+        Log.d(TAG, "drawableToBitmap: converting Drawable to Bitmap")
         val bitmap = createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight)
 
         val canvas = Canvas(bitmap)
         drawable.setBounds(0, 0, canvas.width, canvas.height)
         drawable.draw(canvas)
 
-        Log.d(TAG, "drawableToBitmap: Drawable转换完成")
+        Log.d(TAG, "drawableToBitmap: Drawable conversion completed")
         return bitmap
     }
 

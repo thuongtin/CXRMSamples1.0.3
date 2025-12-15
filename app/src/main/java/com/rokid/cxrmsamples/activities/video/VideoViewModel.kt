@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class VideoViewModel : ViewModel() {
-    // 视频分辨率选项
+    // Video resolution options
     val videoSize: Array<Size> = arrayOf(
         Size(1920, 1080),
         Size(4032, 3024),
@@ -95,11 +95,11 @@ class VideoViewModel : ViewModel() {
 
     fun toggleRecording() {
         if (_isRecording.value) {
-            // 停止录制
+            // Stop recording
             openOrCloseVideoRecord(false)
             _isRecording.value = false
         } else {
-            // 开始录制
+            // Start recording
             openOrCloseVideoRecord(true)
             _isRecording.value = true
         }

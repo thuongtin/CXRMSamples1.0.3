@@ -87,7 +87,7 @@ fun PictureScreen(modifier: Modifier = Modifier, viewModel: PictureViewModel) {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // 分辨率选择下拉菜单
+            // Resolution selection dropdown
             ExposedDropdownMenuBox(
                 expanded = expanded,
                 onExpandedChange = { expanded = !expanded }
@@ -96,7 +96,7 @@ fun PictureScreen(modifier: Modifier = Modifier, viewModel: PictureViewModel) {
                     readOnly = true,
                     value = "${selectedResolution.width}x${selectedResolution.height}",
                     onValueChange = { },
-                    label = { Text("选择分辨率") },
+                    label = { Text("Select resolution") },
                     trailingIcon = {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
                     },
@@ -121,7 +121,7 @@ fun PictureScreen(modifier: Modifier = Modifier, viewModel: PictureViewModel) {
                 }
             }
 
-            // 图片显示区域
+            // Image display area
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -137,7 +137,7 @@ fun PictureScreen(modifier: Modifier = Modifier, viewModel: PictureViewModel) {
                         modifier = Modifier.fillMaxSize()
                     )
                 } else {
-                    Text("点击下方按钮拍照", modifier = Modifier.align(Alignment.Center))
+                    Text("Tap the button below to take a photo", modifier = Modifier.align(Alignment.Center))
                 }
             }
             Button(
@@ -148,10 +148,10 @@ fun PictureScreen(modifier: Modifier = Modifier, viewModel: PictureViewModel) {
             ) {
                 Text("Set Glasses Picture Param")
             }
-            // 拍照按钮
+            // Take photo button
             Button(
                 onClick = {
-                    // 拍照逻辑将在后续实现
+                    // Take photo
                     viewModel.takePicture()
                 },
                 modifier = Modifier

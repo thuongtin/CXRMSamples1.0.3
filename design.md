@@ -1,92 +1,92 @@
-# 接口说明书设计文档
+# Interface Documentation Design Document
 
-## 概述
+## Overview
 
-本设计文档定义了 Rokid CXRM Samples Android 应用的完整接口说明书结构。该说明书将作为开发者使用 Rokid 智能眼镜 SDK 的权威参考文档，涵盖蓝牙连接、音频、视频、拍照、设备信息、自定义视图、自定义协议和媒体文件管理等所有功能模块的接口。
+This design document defines the complete interface documentation structure for the Rokid CXRM Samples Android application. The documentation will serve as the authoritative reference for developers using the Rokid Smart Glasses SDK, covering all functional modules such as Bluetooth connection, audio, video, photo capture, device information, custom views, custom protocols, and media file management.
 
-接口说明书将采用 Markdown 格式编写，包含详细的接口签名、参数说明、返回值、示例代码、数据模型和流程图，便于开发者快速理解和使用。
+The interface documentation will be written in Markdown format and include detailed interface signatures, parameter descriptions, return values, sample code, data models, and flowcharts to help developers quickly understand and use the SDK.
 
-## 架构
+## Architecture
 
-### 文档结构
+### Documentation Structure
 
-接口说明书采用模块化的文档结构，主要包含以下部分：
+The interface documentation uses a modular structure and mainly contains the following sections:
 
 ```
 API-Documentation.md
-├── 1. 文档信息
-│   ├── 版本信息
-│   ├── 更新日期
-│   └── 目录
-├── 2. 概述
-│   ├── SDK 简介
-│   ├── 核心功能
-│   └── 系统要求
-├── 3. 快速开始
-│   ├── 环境配置
-│   ├── 权限配置
-│   └── 初始化流程
-├── 4. 功能模块接口
-│   ├── 4.1 蓝牙连接模块
-│   ├── 4.2 音频功能模块
-│   ├── 4.3 图片拍摄模块
-│   ├── 4.4 视频录制模块
-│   ├── 4.5 设备信息模块
-│   ├── 4.6 自定义视图模块
-│   ├── 4.7 自定义协议模块
-│   └── 4.8 媒体文件管理模块
-├── 5. 数据模型
-│   ├── 枚举类型
-│   ├── 数据类
-│   └── 回调接口
-├── 6. 错误处理
-│   ├── 错误码定义
-│   ├── 异常类型
-│   └── 处理建议
-└── 7. 附录
-    ├── 常见问题
-    ├── 版本兼容性
-    └── 最佳实践
+├── 1. Document Information
+│   ├── Version Information
+│   ├── Update Date
+│   └── Table of Contents
+├── 2. Overview
+│   ├── SDK Introduction
+│   ├── Core Features
+│   └── System Requirements
+├── 3. Quick Start
+│   ├── Environment Setup
+│   ├── Permission Configuration
+│   └── Initialization Flow
+├── 4. Functional Module Interfaces
+│   ├── 4.1 Bluetooth Connection Module
+│   ├── 4.2 Audio Module
+│   ├── 4.3 Picture Capture Module
+│   ├── 4.4 Video Recording Module
+│   ├── 4.5 Device Information Module
+│   ├── 4.6 Custom View Module
+│   ├── 4.7 Custom Protocol Module
+│   └── 4.8 Media File Management Module
+├── 5. Data Models
+│   ├── Enum Types
+│   ├── Data Classes
+│   └── Callback Interfaces
+├── 6. Error Handling
+│   ├── Error Code Definitions
+│   ├── Exception Types
+│   └── Handling Suggestions
+└── 7. Appendix
+    ├── FAQ
+    ├── Version Compatibility
+    └── Best Practices
 ```
 
-### 接口分类
+### Interface Classification
 
-根据功能将接口分为以下 8 个主要模块：
+Interfaces are divided into the following 8 major modules by function:
 
-1. **蓝牙连接模块 (Bluetooth Connection)**: 负责设备扫描、配对、连接和断开
-2. **音频功能模块 (Audio)**: 负责音频录制、播放和拾音声场切换
-3. **图片拍摄模块 (Picture)**: 负责拍照参数设置和图片采集
-4. **视频录制模块 (Video)**: 负责视频录制参数设置和录制控制
-5. **设备信息模块 (Device Information)**: 负责设备信息查询和设备控制
-6. **自定义视图模块 (Custom View)**: 负责在眼镜上显示自定义界面
-7. **自定义协议模块 (Custom Protocol)**: 负责自定义数据通信
-8. **媒体文件管理模块 (Media File)**: 负责媒体文件同步和传输
+1. **Bluetooth Connection Module**: Responsible for device scanning, pairing, connection, and disconnection  
+2. **Audio Module**: Responsible for audio recording, playback, and pickup scene switching  
+3. **Picture Capture Module**: Responsible for photo parameter settings and image capture  
+4. **Video Recording Module**: Responsible for video recording parameter settings and recording control  
+5. **Device Information Module**: Responsible for device information queries and device control  
+6. **Custom View Module**: Responsible for displaying custom UI on the glasses  
+7. **Custom Protocol Module**: Responsible for custom data communication  
+8. **Media File Management Module**: Responsible for media file synchronization and transfer  
 
-### 核心 SDK 类
+### Core SDK Class
 
-所有接口调用都通过 `CxrApi` 单例类进行：
+All interface calls are made through the `CxrApi` singleton class:
 
 ```kotlin
 CxrApi.getInstance()
 ```
 
 
-## 组件和接口
+## Components and Interfaces
 
-### 4.1 蓝牙连接模块
+### 4.1 Bluetooth Connection Module
 
-#### 接口列表
+#### Interface List
 
-| 接口名称 | 方法签名 | 功能描述 |
-|---------|---------|---------|
-| initBluetooth | `initBluetooth(context: Context, device: BluetoothDevice?, callback: BluetoothStatusCallback)` | 初始化蓝牙连接 |
-| connectBluetooth | `connectBluetooth(context: Context, uuid: String, macAddress: String, callback: BluetoothStatusCallback, licenseData: ByteArray, clientSecret: String)` | 连接已配对的蓝牙设备 |
-| deinitBluetooth | `deinitBluetooth()` | 断开蓝牙连接 |
-| isBluetoothConnected | `isBluetoothConnected: Boolean` | 获取蓝牙连接状态 |
+| Interface Name     | Method Signature | Description                      |
+|--------------------|-----------------|----------------------------------|
+| initBluetooth      | `initBluetooth(context: Context, device: BluetoothDevice?, callback: BluetoothStatusCallback)` | Initialize Bluetooth connection |
+| connectBluetooth   | `connectBluetooth(context: Context, uuid: String, macAddress: String, callback: BluetoothStatusCallback, licenseData: ByteArray, clientSecret: String)` | Connect to a paired Bluetooth device |
+| deinitBluetooth    | `deinitBluetooth()` | Disconnect Bluetooth connection  |
+| isBluetoothConnected | `isBluetoothConnected: Boolean` | Get Bluetooth connection status |
 
-#### 数据结构
+#### Data Structures
 
-**BluetoothStatusCallback 接口**:
+**BluetoothStatusCallback interface**:
 ```kotlin
 interface BluetoothStatusCallback {
     fun onConnectionInfo(uuid: String?, macAddress: String?, p2: String?, p3: Int)
@@ -96,7 +96,7 @@ interface BluetoothStatusCallback {
 }
 ```
 
-**DeviceItem 数据类**:
+**DeviceItem data class**:
 ```kotlin
 data class DeviceItem(
     val device: BluetoothDevice?,
@@ -106,7 +106,7 @@ data class DeviceItem(
 )
 ```
 
-#### 调用流程
+#### Call Flow
 
 ```mermaid
 sequenceDiagram
@@ -118,16 +118,16 @@ sequenceDiagram
     App->>BLE Scanner: startScan()
     BLE Scanner->>App: onScanResult(device)
     App->>CxrApi: initBluetooth(device, callback)
-    CxrApi->>Glasses: 建立连接
-    Glasses->>CxrApi: 返回连接信息
+    CxrApi->>Glasses: Establish connection
+    Glasses->>CxrApi: Return connection info
     CxrApi->>App: onConnectionInfo(uuid, mac)
     App->>CxrApi: connectBluetooth(uuid, mac, license, secret)
-    CxrApi->>Glasses: 完成认证
-    Glasses->>CxrApi: 连接成功
+    CxrApi->>Glasses: Complete authentication
+    Glasses->>CxrApi: Connection successful
     CxrApi->>App: onConnected()
 ```
 
-#### 权限要求
+#### Required Permissions
 
 - `android.permission.BLUETOOTH`
 - `android.permission.BLUETOOTH_ADMIN`
@@ -136,27 +136,27 @@ sequenceDiagram
 - `android.permission.BLUETOOTH_CONNECT` (Android 12+)
 - `android.permission.BLUETOOTH_SCAN` (Android 12+)
 
-#### 配置参数
+#### Configuration Parameters
 
 - **SERVICE_UUID**: `"00009100-0000-1000-8000-00805f9b34fb"`
-- **CLIENT_SECRET**: 从 Rokid 开发者平台获取
-- **License File**: `.lc` 格式的授权文件
+- **CLIENT_SECRET**: Obtained from the Rokid Developer Platform
+- **License File**: Authorization file in `.lc` format
 
 
-### 4.2 音频功能模块
+### 4.2 Audio Module
 
-#### 接口列表
+#### Interface List
 
-| 接口名称 | 方法签名 | 功能描述 |
-|---------|---------|---------|
-| setAudioStreamListener | `setAudioStreamListener(listener: AudioStreamListener?)` | 设置音频流监听器 |
-| openAudioRecord | `openAudioRecord(codeType: Int, streamType: String)` | 开始音频录制 |
-| closeAudioRecord | `closeAudioRecord(streamType: String)` | 停止音频录制 |
-| changeAudioSceneId | `changeAudioSceneId(sceneId: Int, callback: (Int, Boolean) -> Unit)` | 切换拾音声场 |
+| Interface Name          | Method Signature | Description                     |
+|-------------------------|-----------------|---------------------------------|
+| setAudioStreamListener  | `setAudioStreamListener(listener: AudioStreamListener?)` | Set the audio stream listener |
+| openAudioRecord         | `openAudioRecord(codeType: Int, streamType: String)` | Start audio recording         |
+| closeAudioRecord        | `closeAudioRecord(streamType: String)` | Stop audio recording          |
+| changeAudioSceneId      | `changeAudioSceneId(sceneId: Int, callback: (Int, Boolean) -> Unit)` | Switch pickup scene          |
 
-#### 数据结构
+#### Data Structures
 
-**AudioStreamListener 接口**:
+**AudioStreamListener interface**:
 ```kotlin
 interface AudioStreamListener {
     fun onStartAudioStream(codeType: Int, streamType: String?)
@@ -164,33 +164,33 @@ interface AudioStreamListener {
 }
 ```
 
-**AudioSceneId 枚举**:
+**AudioSceneId enum**:
 ```kotlin
 enum class AudioSceneId(val id: Int, val sceneName: String) {
-    NEAR(0, "Near"),      // 近场拾音
-    FAR(1, "Far"),        // 远场拾音
-    BOTH(2, "Both")       // 全景拾音
+    NEAR(0, "Near"),      // Near-field pickup
+    FAR(1, "Far"),        // Far-field pickup
+    BOTH(2, "Both")       // Panorama pickup
 }
 ```
 
-**PlayState 枚举**:
+**PlayState enum**:
 ```kotlin
 enum class PlayState {
-    PLAYING,   // 播放中
-    PAUSED,    // 已暂停
-    STOPPED    // 已停止
+    PLAYING,   // Playing
+    PAUSED,    // Paused
+    STOPPED    // Stopped
 }
 ```
 
-#### 音频参数
+#### Audio Parameters
 
-- **采样率**: 16000 Hz
-- **声道**: 单声道 (MONO)
-- **编码格式**: PCM 16-bit
-- **文件格式**: `.pcm`
-- **存储路径**: `/sdcard/Download/Rokid/audioRecord/`
+- **Sample rate**: 16000 Hz  
+- **Channel**: Mono (MONO)  
+- **Encoding format**: PCM 16-bit  
+- **File format**: `.pcm`  
+- **Storage path**: `/sdcard/Download/Rokid/audioRecord/`  
 
-#### 调用流程
+#### Call Flow
 
 ```mermaid
 sequenceDiagram
@@ -201,72 +201,72 @@ sequenceDiagram
     
     App->>CxrApi: setAudioStreamListener(listener)
     App->>CxrApi: openAudioRecord(1, "audio_stream")
-    CxrApi->>Glasses: 开始录音
+    CxrApi->>Glasses: Start recording
     Glasses->>CxrApi: onStartAudioStream()
-    CxrApi->>App: 回调 onStartAudioStream()
-    loop 音频数据流
-        Glasses->>CxrApi: 音频数据
+    CxrApi->>App: Callback onStartAudioStream()
+    loop Audio data stream
+        Glasses->>CxrApi: Audio data
         CxrApi->>App: onAudioStream(data)
-        App->>FileSystem: 保存 PCM 数据
+        App->>FileSystem: Save PCM data
     end
     App->>CxrApi: closeAudioRecord("audio_stream")
-    CxrApi->>Glasses: 停止录音
+    CxrApi->>Glasses: Stop recording
 ```
 
-#### 示例代码
+#### Sample Code
 
 ```kotlin
-// 设置音频流监听器
+// Set audio stream listener
 val audioListener = object : AudioStreamListener {
     override fun onStartAudioStream(codeType: Int, streamType: String?) {
         val fileName = "cxrM_${System.currentTimeMillis()}.pcm"
-        // 创建文件准备录制
+        // Create file and prepare to record
     }
     
     override fun onAudioStream(data: ByteArray?, offset: Int, size: Int) {
-        // 将音频数据写入文件
+        // Write audio data to file
         data?.let {
             fileOutputStream.write(it, offset, size)
         }
     }
 }
 
-// 开始录音
+// Start recording
 CxrApi.getInstance().setAudioStreamListener(audioListener)
 CxrApi.getInstance().openAudioRecord(1, "audio_stream")
 
-// 切换拾音声场
+// Switch pickup scene
 CxrApi.getInstance().changeAudioSceneId(AudioSceneId.FAR.id) { id, success ->
     if (success) {
-        // 切换成功
+        // Switch succeeded
     }
 }
 
-// 停止录音
+// Stop recording
 CxrApi.getInstance().closeAudioRecord("audio_stream")
 CxrApi.getInstance().setAudioStreamListener(null)
 ```
 
 
-### 4.3 图片拍摄模块
+### 4.3 Picture Capture Module
 
-#### 接口列表
+#### Interface List
 
-| 接口名称 | 方法签名 | 功能描述 |
-|---------|---------|---------|
-| setPhotoParams | `setPhotoParams(width: Int, height: Int)` | 设置拍照参数 |
-| takeGlassPhotoGlobal | `takeGlassPhotoGlobal(width: Int, height: Int, quality: Int, callback: PhotoResultCallback)` | 拍摄照片 |
+| Interface Name   | Method Signature | Description              |
+|------------------|-----------------|--------------------------|
+| setPhotoParams   | `setPhotoParams(width: Int, height: Int)` | Set photo parameters |
+| takeGlassPhotoGlobal | `takeGlassPhotoGlobal(width: Int, height: Int, quality: Int, callback: PhotoResultCallback)` | Take a photo |
 
-#### 数据结构
+#### Data Structures
 
-**PhotoResultCallback 接口**:
+**PhotoResultCallback interface**:
 ```kotlin
 fun interface PhotoResultCallback {
     fun onPhotoResult(status: ValueUtil.CxrStatus, imageData: ByteArray)
 }
 ```
 
-**支持的分辨率**:
+**Supported resolutions**:
 ```kotlin
 val pictureSize: Array<Size> = arrayOf(
     Size(1920, 1080),   // Full HD
@@ -275,11 +275,11 @@ val pictureSize: Array<Size> = arrayOf(
     Size(3264, 2448),   // 8MP
     Size(2560, 1440),   // 2K
     Size(1280, 720),    // HD
-    // ... 更多分辨率选项
+    // ... more resolution options
 )
 ```
 
-#### 调用流程
+#### Call Flow
 
 ```mermaid
 sequenceDiagram
@@ -288,31 +288,31 @@ sequenceDiagram
     participant Glasses
     
     App->>CxrApi: setPhotoParams(1920, 1080)
-    CxrApi->>Glasses: 设置拍照参数
+    CxrApi->>Glasses: Set photo parameters
     App->>CxrApi: takeGlassPhotoGlobal(1920, 1080, 100, callback)
-    CxrApi->>Glasses: 触发拍照
-    Glasses->>Glasses: 拍摄照片
-    Glasses->>CxrApi: 返回 WebP 格式图片数据
+    CxrApi->>Glasses: Trigger capture
+    Glasses->>Glasses: Capture photo
+    Glasses->>CxrApi: Return WebP image data
     CxrApi->>App: onPhotoResult(SUCCEED, imageData)
-    App->>App: 解码为 Bitmap
+    App->>App: Decode to Bitmap
 ```
 
-#### 示例代码
+#### Sample Code
 
 ```kotlin
-// 设置拍照参数
+// Set photo parameters
 CxrApi.getInstance().setPhotoParams(1920, 1080)
 
-// 拍照
+// Take photo
 val pictureCallback = PhotoResultCallback { status, imageData ->
     when(status) {
         ValueUtil.CxrStatus.RESPONSE_SUCCEED -> {
-            // imageData 是 WebP 格式图片
+            // imageData is WebP format
             val bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
-            // 显示或保存图片
+            // Display or save the image
         }
         else -> {
-            // 拍照失败
+            // Capture failed
         }
     }
 }
@@ -325,60 +325,60 @@ CxrApi.getInstance().takeGlassPhotoGlobal(
 )
 ```
 
-#### 注意事项
+#### Notes
 
-- 图片数据格式为 **WebP**
-- 质量参数范围: 0-100
-- 拍照过程是异步的，通过回调返回结果
-- 建议在拍照前先调用 `setPhotoParams` 设置参数
+- Image data format is **WebP**  
+- Quality range: 0–100  
+- Photo capture is asynchronous; results are returned via callback  
+- It is recommended to call `setPhotoParams` before capturing to configure parameters  
 
 
-### 4.4 视频录制模块
+### 4.4 Video Recording Module
 
-#### 接口列表
+#### Interface List
 
-| 接口名称 | 方法签名 | 功能描述 |
-|---------|---------|---------|
-| setVideoParams | `setVideoParams(duration: Int, fps: Int, width: Int, height: Int, unit: Int)` | 设置视频录制参数 |
-| controlScene | `controlScene(sceneType: ValueUtil.CxrSceneType, enable: Boolean, callback: ((Boolean) -> Unit)?)` | 控制场景（开始/停止录像）|
-| setSceneStatusUpdateListener | `setSceneStatusUpdateListener(listener: SceneStatusUpdateListener?)` | 设置场景状态监听器 |
+| Interface Name            | Method Signature | Description                               |
+|---------------------------|-----------------|-------------------------------------------|
+| setVideoParams            | `setVideoParams(duration: Int, fps: Int, width: Int, height: Int, unit: Int)` | Set video recording parameters |
+| controlScene              | `controlScene(sceneType: ValueUtil.CxrSceneType, enable: Boolean, callback: ((Boolean) -> Unit)?)` | Control scene (start/stop recording) |
+| setSceneStatusUpdateListener | `setSceneStatusUpdateListener(listener: SceneStatusUpdateListener?)` | Set scene status listener   |
 
-#### 数据结构
+#### Data Structures
 
-**SceneStatusUpdateListener 接口**:
+**SceneStatusUpdateListener interface**:
 ```kotlin
 fun interface SceneStatusUpdateListener {
     fun onSceneStatusUpdate(sceneStatus: SceneStatus?)
 }
 ```
 
-**SceneStatus 类**:
+**SceneStatus class**:
 ```kotlin
 class SceneStatus {
-    val isVideoRecordRunning: Boolean  // 视频录制是否正在运行
+    val isVideoRecordRunning: Boolean  // Whether video recording is running
 }
 ```
 
-**DurationUnit 枚举**:
+**DurationUnit enum**:
 ```kotlin
 enum class DurationUnit {
-    SECONDS,   // 秒
-    MINUTES    // 分钟
+    SECONDS,   // Seconds
+    MINUTES    // Minutes
 }
 ```
 
-**支持的分辨率**:
+**Supported resolutions**:
 ```kotlin
 val videoSize: Array<Size> = arrayOf(
     Size(1920, 1080),   // Full HD
     Size(4032, 3024),   // 4K
     Size(3264, 2448),   // 2K+
     Size(1280, 720),    // HD
-    // ... 更多分辨率选项
+    // ... more resolution options
 )
 ```
 
-#### 调用流程
+#### Call Flow
 
 ```mermaid
 sequenceDiagram
@@ -388,104 +388,104 @@ sequenceDiagram
     
     App->>CxrApi: setSceneStatusUpdateListener(listener)
     App->>CxrApi: setVideoParams(60, 30, 1920, 1080, 1)
-    CxrApi->>Glasses: 设置录像参数
+    CxrApi->>Glasses: Set recording parameters
     App->>CxrApi: controlScene(VIDEO_RECORD, true, null)
-    CxrApi->>Glasses: 开始录像
-    Glasses->>Glasses: 录制视频
-    Note over Glasses: 录制中...
+    CxrApi->>Glasses: Start recording
+    Glasses->>Glasses: Record video
+    Note over Glasses: Recording...
     App->>CxrApi: controlScene(VIDEO_RECORD, false, null)
-    CxrApi->>Glasses: 停止录像
-    Glasses->>CxrApi: 录像状态更新
+    CxrApi->>Glasses: Stop recording
+    Glasses->>CxrApi: Recording status updated
     CxrApi->>App: onSceneStatusUpdate(isVideoRecordRunning=false)
 ```
 
-#### 示例代码
+#### Sample Code
 
 ```kotlin
-// 设置场景状态监听器
+// Set scene status listener
 val sceneStatusUpdateListener = SceneStatusUpdateListener { sceneStatus ->
     sceneStatus?.isVideoRecordRunning?.let { isRecording ->
         if (!isRecording) {
-            // 录像已停止
+            // Recording has stopped
         }
     }
 }
 CxrApi.getInstance().setSceneStatusUpdateListener(sceneStatusUpdateListener)
 
-// 设置视频参数
+// Set video parameters
 CxrApi.getInstance().setVideoParams(
-    duration = 60,      // 时长: 60
-    fps = 30,           // 帧率: 30fps
-    width = 1920,       // 宽度: 1920
-    height = 1080,      // 高度: 1080
-    unit = 1            // 单位: 1=秒, 0=分钟
+    duration = 60,      // Duration: 60
+    fps = 30,           // Frame rate: 30fps
+    width = 1920,       // Width: 1920
+    height = 1080,      // Height: 1080
+    unit = 1            // Unit: 1 = seconds, 0 = minutes
 )
 
-// 开始录像
+// Start recording
 CxrApi.getInstance().controlScene(
     ValueUtil.CxrSceneType.VIDEO_RECORD,
     true,
     null
 )
 
-// 停止录像
+// Stop recording
 CxrApi.getInstance().controlScene(
     ValueUtil.CxrSceneType.VIDEO_RECORD,
     false,
     null
 )
 
-// 清理监听器
+// Clear listener
 CxrApi.getInstance().setSceneStatusUpdateListener(null)
 ```
 
-#### 参数说明
+#### Parameter Description
 
-- **duration**: 录制时长，配合 unit 参数使用
-- **fps**: 帧率，通常设置为 30
-- **width/height**: 视频分辨率
-- **unit**: 时长单位，0=分钟，1=秒
+- **duration**: Recording duration, used together with `unit`  
+- **fps**: Frame rate, typically set to 30  
+- **width/height**: Video resolution  
+- **unit**: Duration unit, 0 = minutes, 1 = seconds  
 
 
-### 4.5 设备信息模块
+### 4.5 Device Information Module
 
-#### 接口列表
+#### Interface List
 
-| 接口名称 | 方法签名 | 功能描述 |
-|---------|---------|---------|
-| getGlassInfo | `getGlassInfo(callback: GlassInfoResultCallback)` | 获取设备所有信息 |
-| setBatteryLevelUpdateListener | `setBatteryLevelUpdateListener(listener: BatteryLevelUpdateListener?)` | 设置电量监听器 |
-| setBrightnessUpdateListener | `setBrightnessUpdateListener(listener: BrightnessUpdateListener?)` | 设置亮度监听器 |
-| setVolumeUpdateListener | `setVolumeUpdateListener(listener: VolumeUpdateListener?)` | 设置音量监听器 |
-| setScreenStatusUpdateListener | `setScreenStatusUpdateListener(listener: ScreenStatusUpdateListener?)` | 设置屏幕状态监听器 |
-| setGlassBrightness | `setGlassBrightness(level: Int): ValueUtil.CxrStatus` | 设置眼镜亮度 |
-| setGlassVolume | `setGlassVolume(level: Int): ValueUtil.CxrStatus` | 设置眼镜音量 |
-| notifyGlassScreenOff | `notifyGlassScreenOff(): ValueUtil.CxrStatus` | 通知眼镜熄屏 |
+| Interface Name                    | Method Signature | Description                             |
+|-----------------------------------|-----------------|-----------------------------------------|
+| getGlassInfo                      | `getGlassInfo(callback: GlassInfoResultCallback)` | Get all device information |
+| setBatteryLevelUpdateListener     | `setBatteryLevelUpdateListener(listener: BatteryLevelUpdateListener?)` | Set battery listener     |
+| setBrightnessUpdateListener       | `setBrightnessUpdateListener(listener: BrightnessUpdateListener?)` | Set brightness listener  |
+| setVolumeUpdateListener           | `setVolumeUpdateListener(listener: VolumeUpdateListener?)` | Set volume listener      |
+| setScreenStatusUpdateListener     | `setScreenStatusUpdateListener(listener: ScreenStatusUpdateListener?)` | Set screen status listener |
+| setGlassBrightness                | `setGlassBrightness(level: Int): ValueUtil.CxrStatus` | Set glasses brightness  |
+| setGlassVolume                    | `setGlassVolume(level: Int): ValueUtil.CxrStatus` | Set glasses volume      |
+| notifyGlassScreenOff              | `notifyGlassScreenOff(): ValueUtil.CxrStatus` | Notify glasses to turn off screen |
 
-#### 数据结构
+#### Data Structures
 
-**GlassInfoResultCallback 接口**:
+**GlassInfoResultCallback interface**:
 ```kotlin
 fun interface GlassInfoResultCallback {
     fun onGlassInfoResult(status: ValueUtil.CxrStatus, glassInfo: GlassInfo?)
 }
 ```
 
-**GlassInfo 类**:
+**GlassInfo class**:
 ```kotlin
 class GlassInfo {
-    val deviceName: String          // 设备名称
-    val deviceId: String            // 设备 SN
-    val systemVersion: String       // 系统版本
-    val wearingStatus: String       // 佩戴状态: "1"=佩戴, "0"=未佩戴
-    val brightness: Int             // 亮度 (0-15)
-    val volume: Int                 // 音量 (0-100)
-    val batteryLevel: Int           // 电量 (0-100)
-    val isCharging: Boolean         // 是否充电中
+    val deviceName: String          // Device name
+    val deviceId: String            // Device SN
+    val systemVersion: String       // System version
+    val wearingStatus: String       // Wearing status: "1" = wearing, "0" = not wearing
+    val brightness: Int             // Brightness (0–15)
+    val volume: Int                 // Volume (0–100)
+    val batteryLevel: Int           // Battery level (0–100)
+    val isCharging: Boolean         // Whether charging
 }
 ```
 
-**监听器接口**:
+**Listener interfaces**:
 ```kotlin
 fun interface BatteryLevelUpdateListener {
     fun onBatteryLevelUpdate(level: Int, isCharging: Boolean)
@@ -504,135 +504,118 @@ fun interface ScreenStatusUpdateListener {
 }
 ```
 
-**CxrStatus 枚举**:
+**CxrStatus enum**:
 ```kotlin
 enum class CxrStatus {
-    REQUEST_SUCCEED,    // 请求成功
-    REQUEST_FAILED,     // 请求失败
-    REQUEST_WAITING,    // 请求排队中
-    RESPONSE_SUCCEED,   // 响应成功
-    RESPONSE_FAILED     // 响应失败
+    REQUEST_SUCCEED,    // Request sent successfully
+    REQUEST_FAILED,     // Request sending failed
+    REQUEST_WAITING,    // Request is queued
+    RESPONSE_SUCCEED,   // Response succeeded
+    RESPONSE_FAILED     // Response failed
 }
 ```
 
-#### 示例代码
+#### Sample Code
 
 ```kotlin
-// 获取设备所有信息
+// Get all device information
 val glassInfoCallback = GlassInfoResultCallback { status, glassInfo ->
     if (status == ValueUtil.CxrStatus.RESPONSE_SUCCEED) {
         glassInfo?.let { info ->
-            println("设备名称: ${info.deviceName}")
+            println("Device name: ${info.deviceName}")
             println("SN: ${info.deviceId}")
-            println("系统版本: ${info.systemVersion}")
-            println("佩戴状态: ${if (info.wearingStatus == "1") "佩戴中" else "未佩戴"}")
-            println("亮度: ${info.brightness}")
-            println("音量: ${info.volume}")
-            println("电量: ${info.batteryLevel}%")
-            println("充电状态: ${if (info.isCharging) "充电中" else "未充电"}")
+            println("System version: ${info.systemVersion}")
+            println("Wearing status: ${if (info.wearingStatus == "1") "Wearing" else "Not wearing"}")
+            println("Brightness: ${info.brightness}")
+            println("Volume: ${info.volume}")
+            println("Battery: ${info.batteryLevel}%")
+            println("Charging: ${if (info.isCharging) "Charging" else "Not charging"}")
         }
     }
 }
 CxrApi.getInstance().getGlassInfo(glassInfoCallback)
 
-// 监听电量变化
+// Listen for battery changes
 val batteryListener = BatteryLevelUpdateListener { level, isCharging ->
-    println("电量: $level%, 充电: $isCharging")
+    println("Battery: $level%, charging: $isCharging")
 }
 CxrApi.getInstance().setBatteryLevelUpdateListener(batteryListener)
 
-// 监听亮度变化
+// Listen for brightness changes
 val brightnessListener = BrightnessUpdateListener { level ->
-    println("亮度: $level")
+    println("Brightness: $level")
 }
 CxrApi.getInstance().setBrightnessUpdateListener(brightnessListener)
 
-// 设置亮度 (0-15)
+// Set brightness (0–15)
 val status = CxrApi.getInstance().setGlassBrightness(10)
 when(status) {
-    ValueUtil.CxrStatus.REQUEST_SUCCEED -> println("设置成功")
-    ValueUtil.CxrStatus.REQUEST_FAILED -> println("设置失败")
-    ValueUtil.CxrStatus.REQUEST_WAITING -> println("命令排队中")
-    else -> println("未知状态")
+    ValueUtil.CxrStatus.REQUEST_SUCCEED -> println("Set successfully")
+    ValueUtil.CxrStatus.REQUEST_FAILED -> println("Set failed")
+    ValueUtil.CxrStatus.REQUEST_WAITING -> println("Command queued")
+    else -> {}
 }
-
-// 设置音量 (0-100)
-CxrApi.getInstance().setGlassVolume(50)
-
-// 通知眼镜熄屏
-CxrApi.getInstance().notifyGlassScreenOff()
-
-// 取消监听器
-CxrApi.getInstance().setBatteryLevelUpdateListener(null)
-CxrApi.getInstance().setBrightnessUpdateListener(null)
 ```
 
-#### 参数范围
 
-- **亮度 (Brightness)**: 0-15
-- **音量 (Volume)**: 0-100
-- **电量 (Battery)**: 0-100
+### 4.6 Custom View Module
 
+#### Interface List
 
-### 4.6 自定义视图模块
+| Interface Name           | Method Signature | Description                             |
+|--------------------------|-----------------|-----------------------------------------|
+| setCustomViewListener    | `setCustomViewListener(listener: CustomViewListener?)` | Set custom view listener  |
+| sendCustomViewIcons      | `sendCustomViewIcons(icons: List<IconInfo>)` | Upload icon resources     |
+| openCustomView           | `openCustomView(viewJson: String)` | Open custom view          |
+| updateCustomView         | `updateCustomView(updateJson: String)` | Update custom view       |
+| closeCustomView          | `closeCustomView()` | Close custom view         |
 
-#### 接口列表
+#### Data Structures
 
-| 接口名称 | 方法签名 | 功能描述 |
-|---------|---------|---------|
-| setCustomViewListener | `setCustomViewListener(listener: CustomViewListener?)` | 设置自定义视图监听器 |
-| sendCustomViewIcons | `sendCustomViewIcons(icons: List<IconInfo>)` | 上传图标资源 |
-| openCustomView | `openCustomView(viewJson: String)` | 打开自定义视图 |
-| updateCustomView | `updateCustomView(updateJson: String)` | 更新自定义视图 |
-| closeCustomView | `closeCustomView()` | 关闭自定义视图 |
-
-#### 数据结构
-
-**CustomViewListener 接口**:
+**CustomViewListener interface**:
 ```kotlin
 interface CustomViewListener {
-    fun onIconsSent()                    // 图标上传完成
-    fun onOpened()                       // 视图已打开
-    fun onOpenFailed(errorCode: Int)     // 打开失败
-    fun onUpdated()                      // 视图已更新
-    fun onClosed()                       // 视图已关闭
+    fun onIconsSent()
+    fun onOpened()
+    fun onOpenFailed(errorCode: Int)
+    fun onUpdated()
+    fun onClosed()
 }
 ```
 
-**IconInfo 类**:
+**IconInfo class**:
 ```kotlin
-class IconInfo(
-    val name: String,        // 图标名称
-    val base64Data: String   // Base64 编码的图片数据
+data class IconInfo(
+    val name: String,     // Icon name
+    val base64: String    // Icon image in Base64 format
 )
 ```
 
-**视图 JSON 结构**:
+**SelfViewJson - view description**:
 ```kotlin
-// SelfViewJson - 视图定义
 class SelfViewJson {
-    var type: String                    // 组件类型: "LinearLayout", "TextView", "ImageView"
-    var props: String                   // 属性 JSON 字符串
-    var children: List<SelfViewJson>?   // 子组件列表
+    var type: String                  // Component type
+    var props: String                 // Props as JSON string
+    var children: List<SelfViewJson>? // Child component list
 }
 
-// UpdateViewJson - 视图更新
+// UpdateViewJson - view updates
 class UpdateViewJson {
     val updateList: MutableList<UpdateJson>
     
     class UpdateJson(val id: String) {
-        val props: MutableMap<String, Any>  // 要更新的属性
+        val props: MutableMap<String, Any>  // Properties to update
     }
 }
 ```
 
-**支持的组件类型**:
-- **LinearLayout**: 线性布局容器
-- **RelativeLayout**: 相对布局容器
-- **TextView**: 文本组件
-- **ImageView**: 图片组件
+**Supported component types**:
+- **LinearLayout**: Linear layout container  
+- **RelativeLayout**: Relative layout container  
+- **TextView**: Text component  
+- **ImageView**: Image component  
 
-#### 调用流程
+#### Call Flow
 
 ```mermaid
 sequenceDiagram
@@ -642,51 +625,51 @@ sequenceDiagram
     
     App->>CxrApi: setCustomViewListener(listener)
     App->>CxrApi: sendCustomViewIcons([icon1, icon2])
-    CxrApi->>Glasses: 上传图标资源
-    Glasses->>CxrApi: 上传完成
+    CxrApi->>Glasses: Upload icon resources
+    Glasses->>CxrApi: Upload completed
     CxrApi->>App: onIconsSent()
     App->>CxrApi: openCustomView(viewJson)
-    CxrApi->>Glasses: 渲染自定义视图
-    Glasses->>CxrApi: 打开成功
+    CxrApi->>Glasses: Render custom view
+    Glasses->>CxrApi: Open succeeded
     CxrApi->>App: onOpened()
     App->>CxrApi: updateCustomView(updateJson)
-    CxrApi->>Glasses: 更新视图
-    Glasses->>CxrApi: 更新完成
+    CxrApi->>Glasses: Update view
+    Glasses->>CxrApi: Update completed
     CxrApi->>App: onUpdated()
     App->>CxrApi: closeCustomView()
-    CxrApi->>Glasses: 关闭视图
-    Glasses->>CxrApi: 关闭完成
+    CxrApi->>Glasses: Close view
+    Glasses->>CxrApi: Close completed
     CxrApi->>App: onClosed()
 ```
 
-#### 示例代码
+#### Sample Code
 
 ```kotlin
-// 1. 设置监听器
+// 1. Set listener
 val customViewListener = object : CustomViewListener {
     override fun onIconsSent() {
-        println("图标上传完成")
+        println("Icon upload completed")
     }
     
     override fun onOpened() {
-        println("自定义视图已打开")
+        println("Custom view opened")
     }
     
     override fun onOpenFailed(errorCode: Int) {
-        println("打开失败: $errorCode")
+        println("Open failed: $errorCode")
     }
     
     override fun onUpdated() {
-        println("视图已更新")
+        println("View updated")
     }
     
     override fun onClosed() {
-        println("视图已关闭")
+        println("View closed")
     }
 }
 CxrApi.getInstance().setCustomViewListener(customViewListener)
 
-// 2. 上传图标资源
+// 2. Upload icon resources
 val icon1Bitmap = BitmapFactory.decodeResource(resources, R.drawable.icon1)
 val outputStream = ByteArrayOutputStream()
 icon1Bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
@@ -695,7 +678,7 @@ val icon1Base64 = Base64.encodeToString(outputStream.toByteArray(), Base64.NO_WR
 val iconInfo = IconInfo("icon1", icon1Base64)
 CxrApi.getInstance().sendCustomViewIcons(listOf(iconInfo))
 
-// 3. 创建视图 JSON
+// 3. Create view JSON
 val viewJson = SelfViewJson().apply {
     type = "LinearLayout"
     props = LinearLayoutProps().apply {
@@ -727,10 +710,10 @@ val viewJson = SelfViewJson().apply {
     )
 }.toJson()
 
-// 4. 打开自定义视图
+// 4. Open custom view
 CxrApi.getInstance().openCustomView(viewJson)
 
-// 5. 更新视图
+// 5. Update view
 val updateJson = UpdateViewJson().apply {
     updateList.add(UpdateJson("textView").apply {
         props["text"] = "Hello Rokid"
@@ -738,66 +721,66 @@ val updateJson = UpdateViewJson().apply {
 }.toJson()
 CxrApi.getInstance().updateCustomView(updateJson)
 
-// 6. 关闭视图
+// 6. Close view
 CxrApi.getInstance().closeCustomView()
 ```
 
-#### 布局属性
+#### Layout Properties
 
 **LinearLayoutProps**:
-- `id`: 组件 ID
-- `layout_width`, `layout_height`: 尺寸 ("match_parent", "wrap_content", "120dp")
-- `backgroundColor`: 背景颜色 ("#RRGGBB")
-- `orientation`: 方向 ("vertical", "horizontal")
-- `gravity`: 对齐方式
-- `marginTop`, `marginBottom`, `paddingStart`, `paddingEnd`: 间距
+- `id`: Component ID  
+- `layout_width`, `layout_height`: Size ("match_parent", "wrap_content", "120dp")  
+- `backgroundColor`: Background color ("#RRGGBB")  
+- `orientation`: Orientation ("vertical", "horizontal")  
+- `gravity`: Alignment  
+- `marginTop`, `marginBottom`, `paddingStart`, `paddingEnd`: Spacing  
 
 **TextViewProps**:
-- `id`: 组件 ID
-- `text`: 文本内容
-- `textColor`: 文本颜色
-- `textSize`: 文本大小 ("16sp")
-- `textStyle`: 文本样式 ("bold", "italic")
-- `gravity`: 对齐方式
+- `id`: Component ID  
+- `text`: Text content  
+- `textColor`: Text color  
+- `textSize`: Text size ("16sp")  
+- `textStyle`: Text style ("bold", "italic")  
+- `gravity`: Alignment  
 
 **ImageViewProps**:
-- `id`: 组件 ID
-- `name`: 图标名称（对应上传的图标）
-- `scaleType`: 缩放类型 ("center", "fitXY")
+- `id`: Component ID  
+- `name`: Icon name (corresponding to uploaded icon)  
+- `scaleType`: Scale type ("center", "fitXY")  
 
 
-### 4.7 自定义协议模块
+### 4.7 Custom Protocol Module
 
-#### 接口列表
+#### Interface List
 
-| 接口名称 | 方法签名 | 功能描述 |
-|---------|---------|---------|
-| setCustomCmdListener | `setCustomCmdListener(listener: CustomCmdListener?)` | 设置自定义命令监听器 |
-| sendCustomCmd | `sendCustomCmd(cmdName: String, caps: Caps)` | 发送自定义命令 |
+| Interface Name        | Method Signature | Description                             |
+|-----------------------|-----------------|-----------------------------------------|
+| setCustomCmdListener  | `setCustomCmdListener(listener: CustomCmdListener?)` | Set custom command listener |
+| sendCustomCmd         | `sendCustomCmd(cmdName: String, caps: Caps)` | Send custom command          |
 
-#### 数据结构
+#### Data Structures
 
-**CustomCmdListener 接口**:
+**CustomCmdListener interface**:
 ```kotlin
 fun interface CustomCmdListener {
     fun onCustomCmd(cmdName: String?, caps: Caps?)
 }
 ```
 
-**Caps 类** (数据容器):
+**Caps class** (data container):
 ```kotlin
 class Caps {
-    // 写入数据
+    // Write data
     fun write(value: String)
     fun writeInt32(value: Int)
     fun write(value: Boolean)
-    fun write(value: Caps)  // 嵌套 Caps
+    fun write(value: Caps)  // Nested Caps
     
-    // 读取数据
+    // Read data
     fun size(): Int
     fun at(index: Int): Value
     
-    // Value 类型
+    // Value type
     class Value {
         fun type(): Int
         val string: String
@@ -820,7 +803,7 @@ class Caps {
 }
 ```
 
-#### 调用流程
+#### Call Flow
 
 ```mermaid
 sequenceDiagram
@@ -830,45 +813,45 @@ sequenceDiagram
     
     App->>CxrApi: setCustomCmdListener(listener)
     
-    Note over App: 发送自定义消息
-    App->>App: 构造 Caps 数据
+    Note over App: Send custom message
+    App->>App: Build Caps data
     App->>CxrApi: sendCustomCmd("Custom Message", caps)
-    CxrApi->>Glasses: 发送数据
+    CxrApi->>Glasses: Send data
     
-    Note over Glasses: 接收自定义消息
-    Glasses->>CxrApi: 返回自定义数据
+    Note over Glasses: Receive custom message
+    Glasses->>CxrApi: Return custom data
     CxrApi->>App: onCustomCmd(cmdName, caps)
-    App->>App: 解析 Caps 数据
+    App->>App: Parse Caps data
 ```
 
-#### 示例代码
+#### Sample Code
 
 ```kotlin
-// 1. 设置自定义命令监听器
+// 1. Set custom command listener
 val customCmdListener = CustomCmdListener { cmdName, caps ->
     if (cmdName == "Custom CMD") {
         caps?.let {
             val message = parseCaps(it)
-            println("收到消息: $message")
+            println("Message received: $message")
         }
     }
 }
 CxrApi.getInstance().setCustomCmdListener(customCmdListener)
 
-// 2. 发送自定义消息
+// 2. Send custom message
 val caps = Caps().apply {
     write("Custom String Message:")
     writeInt32(123)
     write(true)
     
-    // 嵌套 Caps
+    // Nested Caps
     write(Caps().apply {
         write("Nested String Message")
     })
 }
 CxrApi.getInstance().sendCustomCmd("Custom Message", caps)
 
-// 3. 解析 Caps 数据
+// 3. Parse Caps data
 fun parseCaps(caps: Caps): String {
     val sb = StringBuilder()
     for (i in 0 until caps.size()) {
@@ -898,46 +881,46 @@ fun parseCaps(caps: Caps): String {
     return sb.toString()
 }
 
-// 4. 清理监听器
+// 4. Clear listener
 CxrApi.getInstance().setCustomCmdListener(null)
 ```
 
-#### 数据类型支持
+#### Supported Data Types
 
-Caps 支持以下数据类型：
-- **String**: 字符串
-- **Int32**: 32位整数
-- **Float**: 浮点数
-- **Double**: 双精度浮点数
-- **Binary**: 二进制数据
-- **Boolean**: 布尔值
-- **Object**: 嵌套的 Caps 对象
+Caps supports the following data types:
+- **String**: String  
+- **Int32**: 32-bit integer  
+- **Float**: Floating point  
+- **Double**: Double-precision floating point  
+- **Binary**: Binary data  
+- **Boolean**: Boolean  
+- **Object**: Nested Caps object  
 
-#### 使用场景
+#### Usage Scenarios
 
-自定义协议可用于：
-- 应用与眼镜之间的自定义数据交换
-- 实现特定业务逻辑的通信
-- 传输结构化数据
-- 支持嵌套数据结构
+Custom protocol can be used for:
+- Custom data exchange between app and glasses  
+- Implementing business-specific communication logic  
+- Transmitting structured data  
+- Supporting nested data structures  
 
 
-### 4.8 媒体文件管理模块
+### 4.8 Media File Management Module
 
-#### 接口列表
+#### Interface List
 
-| 接口名称 | 方法签名 | 功能描述 |
-|---------|---------|---------|
-| initWifiP2P | `initWifiP2P(callback: WifiP2PStatusCallback)` | 初始化 Wi-Fi P2P 连接 |
-| deinitWifiP2P | `deinitWifiP2P()` | 断开 Wi-Fi P2P 连接 |
-| getUnsyncNum | `getUnsyncNum(callback: UnsyncNumResultCallback)` | 获取未同步文件数量 |
-| startSync | `startSync(savePath: String, mediaTypes: Array<ValueUtil.CxrMediaType>, callback: SyncStatusCallback)` | 开始同步媒体文件 |
-| stopSync | `stopSync()` | 停止同步 |
-| setMediaFilesUpdateListener | `setMediaFilesUpdateListener(listener: MediaFilesUpdateListener?)` | 设置媒体文件更新监听器 |
+| Interface Name                 | Method Signature | Description                               |
+|--------------------------------|-----------------|-------------------------------------------|
+| initWifiP2P                    | `initWifiP2P(callback: WifiP2PStatusCallback)` | Initialize Wi-Fi P2P connection |
+| deinitWifiP2P                  | `deinitWifiP2P()` | Disconnect Wi-Fi P2P connection          |
+| getUnsyncNum                   | `getUnsyncNum(callback: UnsyncNumResultCallback)` | Get number of unsynchronized files |
+| startSync                      | `startSync(savePath: String, mediaTypes: Array<ValueUtil.CxrMediaType>, callback: SyncStatusCallback)` | Start media file synchronization |
+| stopSync                       | `stopSync()` | Stop synchronization                      |
+| setMediaFilesUpdateListener    | `setMediaFilesUpdateListener(listener: MediaFilesUpdateListener?)` | Set media file update listener |
 
-#### 数据结构
+#### Data Structures
 
-**WifiP2PStatusCallback 接口**:
+**WifiP2PStatusCallback interface**:
 ```kotlin
 interface WifiP2PStatusCallback {
     fun onConnected()
@@ -946,7 +929,7 @@ interface WifiP2PStatusCallback {
 }
 ```
 
-**UnsyncNumResultCallback 接口**:
+**UnsyncNumResultCallback interface**:
 ```kotlin
 fun interface UnsyncNumResultCallback {
     fun onUnsyncNumResult(
@@ -958,7 +941,7 @@ fun interface UnsyncNumResultCallback {
 }
 ```
 
-**SyncStatusCallback 接口**:
+**SyncStatusCallback interface**:
 ```kotlin
 interface SyncStatusCallback {
     fun onSyncStart()
@@ -968,32 +951,32 @@ interface SyncStatusCallback {
 }
 ```
 
-**MediaFilesUpdateListener 接口**:
+**MediaFilesUpdateListener interface**:
 ```kotlin
 fun interface MediaFilesUpdateListener {
     fun onMediaFilesUpdate()
 }
 ```
 
-**CxrMediaType 枚举**:
+**CxrMediaType enum**:
 ```kotlin
 enum class CxrMediaType {
-    AUDIO,      // 音频文件
-    PICTURE,    // 图片文件
-    VIDEO       // 视频文件
+    AUDIO,      // Audio files
+    PICTURE,    // Image files
+    VIDEO       // Video files
 }
 ```
 
-**ConnectionStatus 枚举**:
+**ConnectionStatus enum**:
 ```kotlin
 enum class ConnectionStatus {
-    CONNECTED,      // 已连接
-    CONNECTING,     // 连接中
-    DISCONNECTED    // 已断开
+    CONNECTED,      // Connected
+    CONNECTING,     // Connecting
+    DISCONNECTED    // Disconnected
 }
 ```
 
-#### 调用流程
+#### Call Flow
 
 ```mermaid
 sequenceDiagram
@@ -1002,81 +985,80 @@ sequenceDiagram
     participant Glasses
     participant FileSystem
     
-    App->>CxrApi: setMediaFilesUpdateListener(listener)
     App->>CxrApi: initWifiP2P(callback)
-    CxrApi->>Glasses: 建立 Wi-Fi P2P 连接
-    Glasses->>CxrApi: 连接成功
+    CxrApi->>Glasses: Establish Wi-Fi P2P connection
+    Glasses->>CxrApi: Connection status
     CxrApi->>App: onConnected()
     
     App->>CxrApi: getUnsyncNum(callback)
-    CxrApi->>Glasses: 查询未同步文件
-    Glasses->>CxrApi: 返回文件数量
+    CxrApi->>Glasses: Query unsynchronized files
+    Glasses->>CxrApi: Return file counts
     CxrApi->>App: onUnsyncNumResult(status, audio, picture, video)
     
     App->>CxrApi: startSync(path, [VIDEO], callback)
     CxrApi->>App: onSyncStart()
-    loop 同步文件
-        Glasses->>CxrApi: 传输文件数据
-        CxrApi->>FileSystem: 保存文件
+    loop Synchronize files
+        Glasses->>CxrApi: Transfer file data
+        CxrApi->>FileSystem: Save file
         CxrApi->>App: onSingleFileSynced(fileName)
     end
     CxrApi->>App: onSyncFinished()
     
     App->>CxrApi: deinitWifiP2P()
-    CxrApi->>Glasses: 断开连接
+    CxrApi->>Glasses: Disconnect
     CxrApi->>App: onDisconnected()
 ```
 
-#### 示例代码
+#### Sample Code
 
 ```kotlin
-// 1. 设置媒体文件更新监听器
+// 1. Set media file update listener
 val mediaFilesUpdateListener = MediaFilesUpdateListener {
-    // 眼镜中有新的媒体文件生成
+    // New media files generated on glasses
     getUnsyncNum()
 }
 CxrApi.getInstance().setMediaFilesUpdateListener(mediaFilesUpdateListener)
 
-// 2. 连接 Wi-Fi P2P
+// 2. Connect via Wi-Fi P2P
 val wifiP2PCallback = object : WifiP2PStatusCallback {
     override fun onConnected() {
-        println("Wi-Fi P2P 已连接")
+        println("Wi-Fi P2P connected")
     }
     
     override fun onDisconnected() {
-        println("Wi-Fi P2P 已断开")
+        println("Wi-Fi P2P disconnected")
     }
     
     override fun onFailed(errorCode: ValueUtil.CxrWifiErrorCode?) {
-        println("连接失败: $errorCode")
+        println("Connection failed: $errorCode")
     }
 }
 CxrApi.getInstance().initWifiP2P(wifiP2PCallback)
 
-// 3. 获取未同步文件数量
+// 3. Get unsynchronized file count
 val unsyncNumCallback = UnsyncNumResultCallback { status, audioNum, pictureNum, videoNum ->
     if (status == ValueUtil.CxrStatus.RESPONSE_SUCCEED) {
-        println("音频: $audioNum, 图片: $pictureNum, 视频: $videoNum")
+        println("Audio: $audioNum, Picture: $pictureNum, Video: $videoNum")
     }
 }
 CxrApi.getInstance().getUnsyncNum(unsyncNumCallback)
 
-// 4. 开始同步媒体文件
+// 4. Start synchronizing media files
 val syncCallback = object : SyncStatusCallback {
     override fun onSyncStart() {
-        println("开始同步")
+        println("Sync started")
     }
     
     override fun onSingleFileSynced(fileName: String?) {
-        println("文件已同步: $fileName")
+        println("File synced: $fileName")
     }
     
     override fun onSyncFailed() {
-        println("同步失败")
+        println("Sync failed")
     }
     
     override fun onSyncFinished() {
-        println("同步完成")
+        println("Sync finished")
     }
 }
 
@@ -1088,231 +1070,231 @@ val mediaTypes = arrayOf(
 )
 CxrApi.getInstance().startSync(savePath, mediaTypes, syncCallback)
 
-// 5. 停止同步
+// 5. Stop synchronization
 CxrApi.getInstance().stopSync()
 
-// 6. 断开 Wi-Fi P2P
+// 6. Disconnect Wi-Fi P2P
 CxrApi.getInstance().deinitWifiP2P()
 ```
 
-#### 权限要求
+#### Required Permissions
 
-- `android.permission.NEARBY_WIFI_DEVICES` (Android 13+)
-- Wi-Fi 需要开启
+- `android.permission.NEARBY_WIFI_DEVICES` (Android 13+)  
+- Wi-Fi must be enabled  
 
-#### 注意事项
+#### Notes
 
-- 同步前需要先建立 Wi-Fi P2P 连接
-- 同步路径需要有写入权限
-- 可以选择性同步特定类型的媒体文件
-- 同步过程中可以随时停止
+- Wi-Fi P2P connection must be established before synchronization  
+- The synchronization path must have write permission  
+- You can selectively synchronize specific types of media files  
+- Synchronization can be stopped at any time  
 
 
-## 数据模型
+## Data Models
 
-### 枚举类型汇总
+### Enum Types Summary
 
 #### ValueUtil.CxrStatus
 ```kotlin
 enum class CxrStatus {
-    REQUEST_SUCCEED,    // 请求成功
-    REQUEST_FAILED,     // 请求失败
-    REQUEST_WAITING,    // 请求排队中
-    RESPONSE_SUCCEED,   // 响应成功
-    RESPONSE_FAILED     // 响应失败
+    REQUEST_SUCCEED,    // Request sent successfully
+    REQUEST_FAILED,     // Request sending failed
+    REQUEST_WAITING,    // Request is queued
+    RESPONSE_SUCCEED,   // Response succeeded
+    RESPONSE_FAILED     // Response failed
 }
 ```
 
 #### ValueUtil.CxrSceneType
 ```kotlin
 enum class CxrSceneType {
-    VIDEO_RECORD,       // 视频录制场景
-    // 其他场景类型...
+    VIDEO_RECORD,       // Video recording scene
+    // Other scene types...
 }
 ```
 
 #### ValueUtil.CxrMediaType
 ```kotlin
 enum class CxrMediaType {
-    AUDIO,      // 音频文件
-    PICTURE,    // 图片文件
-    VIDEO       // 视频文件
+    AUDIO,      // Audio files
+    PICTURE,    // Image files
+    VIDEO       // Video files
 }
 ```
 
 #### ValueUtil.CxrBluetoothErrorCode
 ```kotlin
 enum class CxrBluetoothErrorCode {
-    // 蓝牙错误码定义
+    // Bluetooth error code definitions
 }
 ```
 
 #### ValueUtil.CxrWifiErrorCode
 ```kotlin
 enum class CxrWifiErrorCode {
-    // Wi-Fi 错误码定义
+    // Wi-Fi error code definitions
 }
 ```
 
-#### UsageType (应用层枚举)
+#### UsageType (application-level enum)
 ```kotlin
 enum class UsageType {
-    USAGE_TYPE_AUDIO,               // 音频功能
-    USAGE_TYPE_VIDEO,               // 视频功能
-    USAGE_TYPE_PHOTO,               // 拍照功能
-    USAGE_TYPE_FILE,                // 文件管理
-    USAGE_TYPE_AI,                  // AI 场景
-    USAGE_CUSTOM_VIEW,              // 自定义视图
-    USAGE_TYPE_CUSTOM_PROTOCOL,     // 自定义协议
-    USAGE_TYPE_TELEPROMPTER,        // 提词器场景
-    USAGE_TYPE_TRANSLATION,         // 翻译场景
-    USAGE_TYPE_DEVICE_INFORMATION   // 设备信息
+    USAGE_TYPE_AUDIO,               // Audio feature
+    USAGE_TYPE_VIDEO,               // Video feature
+    USAGE_TYPE_PHOTO,               // Photo feature
+    USAGE_TYPE_FILE,                // File management
+    USAGE_TYPE_AI,                  // AI scenarios
+    USAGE_CUSTOM_VIEW,              // Custom view
+    USAGE_TYPE_CUSTOM_PROTOCOL,     // Custom protocol
+    USAGE_TYPE_TELEPROMPTER,        // Teleprompter scenario
+    USAGE_TYPE_TRANSLATION,         // Translation scenario
+    USAGE_TYPE_DEVICE_INFORMATION   // Device information
 }
 ```
 
-### 回调接口汇总
+### Callback Interfaces Summary
 
-所有回调接口都遵循以下命名规范：
-- **Listener**: 持续监听的回调（如状态变化）
-- **Callback**: 一次性操作的回调（如请求响应）
+All callback interfaces follow the naming conventions:
+- **Listener**: For ongoing listening (e.g., status changes)  
+- **Callback**: For one-shot operations (e.g., request responses)  
 
-#### 蓝牙相关
-- `BluetoothStatusCallback`: 蓝牙连接状态回调
+#### Bluetooth
+- `BluetoothStatusCallback`: Bluetooth connection status callback  
 
-#### 音频相关
-- `AudioStreamListener`: 音频流监听器
+#### Audio
+- `AudioStreamListener`: Audio stream listener  
 
-#### 图片相关
-- `PhotoResultCallback`: 拍照结果回调
+#### Picture
+- `PhotoResultCallback`: Photo capture result callback  
 
-#### 视频相关
-- `SceneStatusUpdateListener`: 场景状态更新监听器
+#### Video
+- `SceneStatusUpdateListener`: Scene status update listener  
 
-#### 设备信息相关
-- `GlassInfoResultCallback`: 设备信息查询回调
-- `BatteryLevelUpdateListener`: 电量更新监听器
-- `BrightnessUpdateListener`: 亮度更新监听器
-- `VolumeUpdateListener`: 音量更新监听器
-- `ScreenStatusUpdateListener`: 屏幕状态更新监听器
+#### Device Information
+- `GlassInfoResultCallback`: Device info query callback  
+- `BatteryLevelUpdateListener`: Battery level update listener  
+- `BrightnessUpdateListener`: Brightness update listener  
+- `VolumeUpdateListener`: Volume update listener  
+- `ScreenStatusUpdateListener`: Screen status update listener  
 
-#### 自定义视图相关
-- `CustomViewListener`: 自定义视图监听器
+#### Custom View
+- `CustomViewListener`: Custom view listener  
 
-#### 自定义协议相关
-- `CustomCmdListener`: 自定义命令监听器
+#### Custom Protocol
+- `CustomCmdListener`: Custom command listener  
 
-#### 媒体文件相关
-- `WifiP2PStatusCallback`: Wi-Fi P2P 状态回调
-- `UnsyncNumResultCallback`: 未同步文件数量查询回调
-- `SyncStatusCallback`: 同步状态回调
-- `MediaFilesUpdateListener`: 媒体文件更新监听器
+#### Media Files
+- `WifiP2PStatusCallback`: Wi-Fi P2P status callback  
+- `UnsyncNumResultCallback`: Unsynchronized file count query callback  
+- `SyncStatusCallback`: Synchronization status callback  
+- `MediaFilesUpdateListener`: Media file update listener  
 
-### 常量定义
+### Constant Definitions
 
-#### CONSTANT 对象
+#### `CONSTANT` object
 ```kotlin
 object CONSTANT {
-    // 蓝牙权限列表
+    // Bluetooth permission list
     val BLUETOOTH_PERMISSIONS: Array<String>
     
-    // 蓝牙服务 UUID
+    // Bluetooth service UUID
     const val SERVICE_UUID = "00009100-0000-1000-8000-00805f9b34fb"
     
-    // 客户端密钥（从 Rokid 开发者平台获取）
+    // Client secret (obtained from Rokid Developer Platform)
     const val CLIENT_SECRET = "e5058adf-97a2-11f0-961e-043f72fdb9c8"
     
-    // 自定义命令标识
+    // Custom command identifier
     const val CUSTOM_CMD = "Custom CMD"
 }
 ```
 
-## 错误处理
+## Error Handling
 
-### 错误码体系
+### Error Code System
 
-#### CxrStatus 状态码
-- `REQUEST_SUCCEED`: 请求已成功发送
-- `REQUEST_FAILED`: 请求发送失败
-- `REQUEST_WAITING`: 请求在队列中等待
-- `RESPONSE_SUCCEED`: 收到成功响应
-- `RESPONSE_FAILED`: 收到失败响应
+#### `CxrStatus` status codes
+- `REQUEST_SUCCEED`: Request sent successfully  
+- `REQUEST_FAILED`: Request sending failed  
+- `REQUEST_WAITING`: Request is queued  
+- `RESPONSE_SUCCEED`: Response succeeded  
+- `RESPONSE_FAILED`: Response failed  
 
-### 异常处理策略
+### Exception Handling Strategies
 
-#### 1. 蓝牙连接异常
+#### 1. Bluetooth connection exceptions
 ```kotlin
-// 连接失败处理
+// Connection failure handling
 override fun onFailed(errorCode: ValueUtil.CxrBluetoothErrorCode?) {
     when(errorCode) {
-        // 根据错误码进行相应处理
+        // Handle according to error code
         else -> {
-            // 通用错误处理
-            // 建议：重试连接或提示用户
+            // Generic error handling
+            // Suggestion: retry connection or prompt the user
         }
     }
 }
 ```
 
-#### 2. 接口调用异常
+#### 2. Interface call exceptions
 ```kotlin
-// 检查返回状态
+// Check return status
 val status = CxrApi.getInstance().setGlassBrightness(10)
 when(status) {
     ValueUtil.CxrStatus.REQUEST_SUCCEED -> {
-        // 请求成功，等待响应
+        // Request succeeded; wait for response
     }
     ValueUtil.CxrStatus.REQUEST_FAILED -> {
-        // 请求失败，检查连接状态
+        // Request failed; check connection status
     }
     ValueUtil.CxrStatus.REQUEST_WAITING -> {
-        // 命令排队中，稍后重试
+        // Command is queued; retry later
     }
 }
 ```
 
-#### 3. 回调超时处理
+#### 3. Callback timeout handling
 ```kotlin
-// 建议为异步操作设置超时机制
+// It is recommended to set timeout for asynchronous operations
 val timeoutHandler = Handler(Looper.getMainLooper())
 val timeoutRunnable = Runnable {
-    // 超时处理逻辑
-    Log.e(TAG, "操作超时")
+    // Timeout handling logic
+    Log.e(TAG, "Operation timed out")
 }
 
-// 设置 5 秒超时
+// Set 5-second timeout
 timeoutHandler.postDelayed(timeoutRunnable, 5000)
 
-// 操作成功后取消超时
+// Cancel timeout after successful operation
 timeoutHandler.removeCallbacks(timeoutRunnable)
 ```
 
-### 最佳实践
+### Best Practices
 
-#### 1. 连接状态检查
+#### 1. Connection status check
 ```kotlin
-// 在调用接口前检查连接状态
+// Check connection status before calling interfaces
 if (CxrApi.getInstance().isBluetoothConnected) {
-    // 执行操作
+    // Execute operation
 } else {
-    // 提示用户连接设备
+    // Prompt user to connect device
 }
 ```
 
-#### 2. 资源清理
+#### 2. Resource cleanup
 ```kotlin
-// Activity/Fragment 销毁时清理监听器
+// Clean up listeners when Activity/Fragment is destroyed
 override fun onDestroy() {
     super.onDestroy()
     CxrApi.getInstance().setAudioStreamListener(null)
     CxrApi.getInstance().setCustomViewListener(null)
     CxrApi.getInstance().setCustomCmdListener(null)
-    // ... 清理其他监听器
+    // ... clean up other listeners
 }
 ```
 
-#### 3. 权限检查
+#### 3. Permission check
 ```kotlin
-// 在使用功能前检查权限
+// Check permissions before using features
 fun checkPermissions(): Boolean {
     return CONSTANT.BLUETOOTH_PERMISSIONS.all {
         ActivityCompat.checkSelfPermission(context, it) == 
@@ -1321,16 +1303,16 @@ fun checkPermissions(): Boolean {
 }
 ```
 
-#### 4. 线程安全
+#### 4. Thread safety
 ```kotlin
-// UI 更新需要在主线程执行
+// UI updates must be done on the main thread
 CoroutineScope(Dispatchers.Main).launch {
-    // 更新 UI
+    // Update UI
 }
 
-// 文件操作在 IO 线程执行
+// File operations should be on IO thread
 CoroutineScope(Dispatchers.IO).launch {
-    // 文件读写操作
+    // File read/write operations
 }
 ```
 

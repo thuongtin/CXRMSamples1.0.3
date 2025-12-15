@@ -83,8 +83,8 @@ fun VideoScreen(viewModel: VideoViewModel) {
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "视频录制", modifier = Modifier.padding(top = 32.dp, bottom = 16.dp))
-            // 分辨率选择下拉框
+            Text(text = "Video recording", modifier = Modifier.padding(top = 32.dp, bottom = 16.dp))
+            // Resolution selection dropdown
             ExposedDropdownMenuBox(
                 expanded = resolutionExpanded,
                 onExpandedChange = { resolutionExpanded = !resolutionExpanded }
@@ -93,7 +93,7 @@ fun VideoScreen(viewModel: VideoViewModel) {
                     value = "${selectedResolution.width}x${selectedResolution.height}",
                     onValueChange = {},
                     readOnly = true,
-                    label = { Text("选择分辨率") },
+                    label = { Text("Select resolution") },
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = resolutionExpanded) },
                     modifier = Modifier
                         .menuAnchor(MenuAnchorType.PrimaryNotEditable, true)
@@ -115,7 +115,7 @@ fun VideoScreen(viewModel: VideoViewModel) {
                 }
             }
 
-            // 时长输入框
+            // Duration input field
             TextField(
                 value = durationInput,
                 onValueChange = { input ->
@@ -125,13 +125,13 @@ fun VideoScreen(viewModel: VideoViewModel) {
                         viewModel.setDuration(value)
                     }
                 },
-                label = { Text("设置时长") },
+                label = { Text("Set duration") },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp)
             )
 
-            // 时间单位单选按钮
+            // Time unit radio buttons
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -145,7 +145,7 @@ fun VideoScreen(viewModel: VideoViewModel) {
                         selected = (durationUnit == VideoViewModel.DurationUnit.SECONDS),
                         onClick = { viewModel.setDurationUnit(VideoViewModel.DurationUnit.SECONDS) }
                     )
-                    Text("秒")
+                    Text("Seconds")
                 }
 
                 Row(
@@ -156,28 +156,28 @@ fun VideoScreen(viewModel: VideoViewModel) {
                         selected = (durationUnit == VideoViewModel.DurationUnit.MINUTES),
                         onClick = { viewModel.setDurationUnit(VideoViewModel.DurationUnit.MINUTES) }
                     )
-                    Text("分")
+                    Text("Minutes")
                 }
             }
 
-            // 设置参数按钮
+            // Set parameter button
             Button(
                 onClick = { viewModel.setVideoParams() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 24.dp)
             ) {
-                Text("设置录像参数")
+                Text("Set recording parameters")
             }
 
-            // 开始/停止录像按钮
+            // Start/Stop recording button
             Button(
                 onClick = { viewModel.toggleRecording() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp)
             ) {
-                Text(if (isRecording) "停止录像" else "开始录像")
+                Text(if (isRecording) "Stop recording" else "Start recording")
             }
         }
     }

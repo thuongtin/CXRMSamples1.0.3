@@ -237,7 +237,7 @@ fun BluetoothInitScreen(
                 }
             }
 
-            // 扫描结果列表
+            // Scan result list
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()

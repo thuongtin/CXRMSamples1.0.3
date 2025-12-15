@@ -48,7 +48,7 @@ class AudioUsageViewModel: ViewModel() {
     private val _playStatus = MutableStateFlow(PlayState.STOPPED)
     val playStatus = _playStatus.asStateFlow()
 
-    // 播放进度相关状态
+    // Playback progress related state
     private val _currentPosition: MutableStateFlow<Long> = MutableStateFlow(0L)
     val currentPosition = _currentPosition.asStateFlow()
     
@@ -67,7 +67,7 @@ class AudioUsageViewModel: ViewModel() {
 
         @SuppressLint("SdCardPath")
         override fun onAudioStream(data: ByteArray?, offset: Int, size: Int) {
-            // audio data--存储到应用内
+            // Audio data -- store to app path
             val file = File(recordPath, recordName)
             val parent = file.parentFile
             if (!parent!!.exists()) {
@@ -120,11 +120,11 @@ class AudioUsageViewModel: ViewModel() {
         }
     }
     
-    // 添加播放PCM音频文件的方法
+    // Add method to play PCM audio files
     fun startPlayAudio() {
         Log.d(TAG, "startPlayAudio: $recordName")
         if (_playStatus.value == PlayState.PAUSED){
-            // 恢复播放
+            // Resume playback
             audioTrack?.play()
             _playStatus.value = PlayState.PLAYING
             return
@@ -138,10 +138,10 @@ class AudioUsageViewModel: ViewModel() {
                     return@launch
                 }
                 
-                // 计算音频总时长
+                // Calculate total audio duration
                 val fileSize = file.length()
                 val bytesPerSample = 2 // 16Bit = 2 bytes
-                val channels = 1 // 单声道
+                val channels = 1 // Mono
                 val sampleRateInHz = 16000 // 16K
                 val totalSamples = fileSize / (bytesPerSample * channels)
                 val durationMs = (totalSamples * 1000 / sampleRateInHz).toLong()
@@ -151,12 +151,12 @@ class AudioUsageViewModel: ViewModel() {
                     _currentPosition.value = 0L
                 }
                 
-                val channelConfig = AudioFormat.CHANNEL_OUT_MONO // 单声道
+                val channelConfig = AudioFormat.CHANNEL_OUT_MONO // Mono
                 val audioFormat = AudioFormat.ENCODING_PCM_16BIT // 16Bit
                 
                 val bufferSizeInBytes = AudioTrack.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat)
                 
-                // 使用AudioTrack.Builder替代已废弃的构造函数
+                // Use AudioTrack.Builder instead of the deprecated constructor
                 audioTrack = AudioTrack.Builder()
                     .setAudioAttributes(
                         android.media.AudioAttributes.Builder()
@@ -192,7 +192,7 @@ class AudioUsageViewModel: ViewModel() {
                     if (bytesRead > 0) {
                         audioTrack?.write(data, 0, bytesRead)
                         
-                        // 更新播放进度
+                        // Update playback progress
                         totalReadBytes += bytesRead.toLong()
                         val positionMs = (totalReadBytes * 1000 / (sampleRateInHz * bytesPerSample * channels)).toLong()
                         
@@ -202,7 +202,7 @@ class AudioUsageViewModel: ViewModel() {
                     }
                     
                     if (dis.getFilePointer() >= dis.length()) {
-                        // 文件读取完毕
+                        // File reading completed
                         break
                     }
                 }

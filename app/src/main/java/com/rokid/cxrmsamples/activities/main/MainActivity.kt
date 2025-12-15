@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
     private val openBluetoothLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {result ->
-        if (result.resultCode == RESULT_OK){// 打开了蓝牙
+        if (result.resultCode == RESULT_OK){ // Bluetooth has been turned on
             viewModel.checkBluetoothEnabled(bluetoothManager.adapter)
         }
     }

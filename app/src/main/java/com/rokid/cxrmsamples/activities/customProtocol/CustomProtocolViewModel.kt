@@ -86,7 +86,7 @@ class CustomProtocolViewModel : ViewModel() {
                         parseCMD(value.`object`)
                     }
                     else -> {
-                        "不是需要的类型"
+                        "Unexpected value type"
                     }
                 }
             )

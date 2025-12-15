@@ -73,7 +73,7 @@ class BluetoothIniViewModel : ViewModel() {
                     ?: "error")
             ) {
                 Log.d(TAG, "Device matches recorded info")
-                // 检查连接状态，如果已连接则不再次尝试连接
+                // Check connection status; if already connected, do not try again
                 if (!CxrApi.getInstance().isBluetoothConnected) {
                     Log.d(TAG, "Device not connected, posting toConnect")
                     toConnect.postValue(true)
@@ -116,7 +116,7 @@ class BluetoothIniViewModel : ViewModel() {
 
     init {
         _recordState.value = false
-        // 添加一些示例数据用于测试
+        // Add some sample data for testing (commented out)
 //        _devicesList.value = listOf(
 //            DeviceItem(null,"Device 1", "00:11:22:33:44:55", -45),
 //            DeviceItem(null, "Device 2", "AA:BB:CC:DD:EE:FF", -60),
@@ -142,7 +142,7 @@ class BluetoothIniViewModel : ViewModel() {
     }
 
     /**
-     * 扫描状态更新
+     * Scan state update
      */
     @SuppressLint("MissingPermission")
     fun handleScan(bleScanner: BluetoothLeScanner?) {
@@ -164,11 +164,11 @@ class BluetoothIniViewModel : ViewModel() {
 
 
     /**
-     * 检查记录状态
+     * Check record state
      */
     fun checkRecordState(context: Context) {
         Log.d(TAG, "Checking record state")
-        // 从SharedPreference 中读取数据
+        // Read data from SharedPreferences
         val sharedPreferences = context.getSharedPreferences("record", Context.MODE_PRIVATE)
         val recordName = sharedPreferences.getString("record_name", null)
         val recordUUID = sharedPreferences.getString("record_uuid", null)
@@ -191,7 +191,7 @@ class BluetoothIniViewModel : ViewModel() {
     }
 
     /**
-     * 记录设备信息
+     * Save recorded device information
      */
     fun record(context: Context) {
         Log.d(
@@ -209,7 +209,7 @@ class BluetoothIniViewModel : ViewModel() {
 
 
     /**
-     * 添加设备
+     * Add device
      */
     @SuppressLint("MissingPermission")
     fun addDevice(device: BluetoothDevice, rssi: Int) {
@@ -217,7 +217,7 @@ class BluetoothIniViewModel : ViewModel() {
             TAG,
             "Adding device: name=${device.name ?: "Unknown"}, address=${device.address}, rssi=$rssi"
         )
-        // 判断设备是否已存在
+        // Check whether the device already exists
         val existingDevice = _devicesList.value.find { it.device == device }
         if (existingDevice != null) {
             Log.d(TAG, "Device already exists, updating RSSI")
@@ -230,7 +230,7 @@ class BluetoothIniViewModel : ViewModel() {
     }
 
     /**
-     * 更新设备信号强度
+     * Update device signal strength
      */
     fun updateRssi(device: BluetoothDevice, rssi: Int) {
         Log.d(TAG, "Updating RSSI for device ${device.address}: $rssi")
@@ -244,7 +244,7 @@ class BluetoothIniViewModel : ViewModel() {
     }
 
     /**
-     * 清空设备列表
+     * Clear device list
      */
     fun clearDevices() {
         Log.d(TAG, "Clearing device list")
@@ -252,14 +252,14 @@ class BluetoothIniViewModel : ViewModel() {
     }
 
     /**
-     * 连接蓝牙Socket
+     * Connect Bluetooth socket
      */
     fun connectBTSocket(context: Context) {
         Log.d(
             TAG,
             "Reconnecting to device: uuid=${_recordUUID.value}, mac=${_recordMacAddress.value}"
         )
-        // 重新连接设备
+        // Reconnect the device
         CxrApi.getInstance().connectBluetooth(
             context,
             _recordUUID.value ?: "error",
@@ -272,7 +272,7 @@ class BluetoothIniViewModel : ViewModel() {
 
 
     /**
-     * 设备点击处理
+     * Device click handling
      */
     fun deviceClicked(activity: Context, deviceItem: DeviceItem?) {
         deviceItem?.let {
@@ -284,7 +284,7 @@ class BluetoothIniViewModel : ViewModel() {
     }
 
     /**
-     * 读取raw目录下的.lc 文件
+     * Read .lc file under the raw directory
      */
     fun readRawFile(context: Context): ByteArray {
         Log.d(TAG, "Reading raw file: sn_6101e2e5ec2f4c5abadc3597066af969")

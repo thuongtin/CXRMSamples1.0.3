@@ -55,7 +55,7 @@ fun AudioUsageScreen(
     val changing by viewModel.changing.collectAsState()
     val pickupType by viewModel.pickUpType.collectAsState()
 
-    // 计算进度比例 (0.0 - 1.0)
+    // Calculate progress ratio (0.0 - 1.0)
     val progress = if (duration > 0) currentPosition.toFloat() / duration.toFloat() else 0f
 
 
@@ -73,15 +73,15 @@ fun AudioUsageScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = "", modifier = Modifier.padding(top = 16.dp))
-            // 顶部：拾音声场显示
+            // Top: pickup scene display
             Text(
-                text = "拾音声场：${pickupField.value.sceneName}",
+                text = "Pickup scene: ${pickupField.value.sceneName}",
                 modifier = Modifier
                     .height(64.dp)
                     .padding(top = 16.dp),
             )
 
-            // 录音控制按钮
+            // Recording control buttons
             Row(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
@@ -93,7 +93,7 @@ fun AudioUsageScreen(
                         .padding(end = 8.dp),
                     enabled = !recording
                 ) {
-                    Text("开始录音")
+                    Text("Start recording")
                 }
 
                 Button(
@@ -103,7 +103,7 @@ fun AudioUsageScreen(
                         .padding(start = 8.dp),
                     enabled = recording
                 ) {
-                    Text("停止录音")
+                    Text("Stop recording")
                 }
             }
 
@@ -115,7 +115,7 @@ fun AudioUsageScreen(
                         .padding(horizontal = 4.dp),
                     enabled = (!changing && pickupType != AudioSceneId.NEAR)
                 ) {
-                    Text("近场")
+                    Text("Near-field")
                 }
                 Button(
                     onClick = { viewModel.changeAudioSceneId(AudioSceneId.FAR) },
@@ -124,7 +124,7 @@ fun AudioUsageScreen(
                         .padding(horizontal = 4.dp),
                     enabled = (!changing && pickupType != AudioSceneId.FAR)
                 ) {
-                    Text("远场")
+                    Text("Far-field")
                 }
                 Button(
                     onClick = { viewModel.changeAudioSceneId(AudioSceneId.BOTH) },
@@ -133,11 +133,11 @@ fun AudioUsageScreen(
                         .padding(horizontal = 4.dp),
                     enabled = (!changing && pickupType != AudioSceneId.BOTH)
                 ) {
-                    Text("全景")
+                    Text("Panorama")
                 }
             }
 
-            // 音频播放器
+            // Audio player
             if (!listRecordName.isEmpty()) {
                 Column(
                     modifier = Modifier
@@ -147,9 +147,9 @@ fun AudioUsageScreen(
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
 
-                    Text("音频播放器", modifier = Modifier.padding(bottom = 16.dp))
+                    Text("Audio Player", modifier = Modifier.padding(bottom = 16.dp))
                     Row {
-                        // 播放/暂停按钮
+                        // Play/Pause button
                         Button(
                             onClick = {
                                 if (playState == PlayState.PLAYING) {
@@ -162,31 +162,31 @@ fun AudioUsageScreen(
                         ) {
                             Text(
                                 if (playState == PlayState.PLAYING) {
-                                    "暂停"
+                                    "Pause"
                                 } else {
-                                    "播放"
+                                    "Play"
                                 }
                             )
                         }
-                        // 停止播放按钮
+                        // Stop playback button
                         Button(
                             onClick = { viewModel.stopPlayAudio() },
                             modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp),
                             enabled = playState != PlayState.STOPPED
                         ) {
-                            Text("停止")
+                            Text("Stop")
                         }
                     }
-                    // 进度条
+                    // Progress bar
                     Slider(
                         value = progress,
-                        onValueChange = { /* 进度调节功能需要额外实现 */ },
+                        onValueChange = { /* Progress adjustment requires additional implementation */ },
                         modifier = Modifier
                             .padding(horizontal = 16.dp)
                             .padding(bottom = 16.dp)
                     )
 
-                    Text("进度: ${formatTime(currentPosition)} / ${formatTime(duration)}")
+                    Text("Progress: ${formatTime(currentPosition)} / ${formatTime(duration)}")
 
                     Spacer(modifier = Modifier.weight(1f))
                 }
@@ -195,7 +195,7 @@ fun AudioUsageScreen(
     }
 }
 
-// 格式化时间显示 (毫秒转为 mm:ss 格式)
+// Format time display (convert milliseconds to mm:ss)
 @SuppressLint("DefaultLocale")
 fun formatTime(milliseconds: Long): String {
     val seconds = (milliseconds / 1000).toInt()

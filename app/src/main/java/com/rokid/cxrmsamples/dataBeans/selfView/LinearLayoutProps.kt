@@ -17,7 +17,7 @@ class LinearLayoutProps {
                 if (value == "match_parent" || value == "wrap_content" || value.endsWith("dp")) {
                     value
                 } else if (value.matches(Regex("\\d+"))) {
-                    // 如果只提供了数字，则自动添加dp单位
+                    // If only a number is provided, automatically append the dp unit
                     "${value}dp"
                 } else {
                     throw IllegalArgumentException("layout_width must be 'match_parent', 'wrap_content', or a value ending with 'dp'")
@@ -30,7 +30,7 @@ class LinearLayoutProps {
                 if (value == "match_parent" || value == "wrap_content" || value.endsWith("dp")) {
                     value
                 } else if (value.matches(Regex("\\d+"))) {
-                    // 如果只提供了数字，则自动添加dp单位
+                    // If only a number is provided, automatically append the dp unit
                     "${value}dp"
                 } else {
                     throw IllegalArgumentException("layout_height must be 'match_parent', 'wrap_content', or a value ending with 'dp'")
@@ -63,7 +63,7 @@ class LinearLayoutProps {
             field = if (value == null || value.endsWith("dp")) {
                 value
             } else if (value.matches(Regex("\\d+"))) {
-                // 如果只提供了数字，则自动添加dp单位
+                // If only a number is provided, automatically append the dp unit
                 "${value}dp"
             } else {
                 throw IllegalArgumentException("paddingTop must be null or a value ending with 'dp'")
@@ -74,7 +74,7 @@ class LinearLayoutProps {
             field = if (value == null || value.endsWith("dp")) {
                 value
             } else if (value.matches(Regex("\\d+"))) {
-                // 如果只提供了数字，则自动添加dp单位
+                // If only a number is provided, automatically append the dp unit
                 "${value}dp"
             } else {
                 throw IllegalArgumentException("paddingBottom must be null or a value ending with 'dp'")
@@ -85,7 +85,7 @@ class LinearLayoutProps {
             field = if (value == null || value.endsWith("dp")) {
                 value
             } else if (value.matches(Regex("\\d+"))) {
-                // 如果只提供了数字，则自动添加dp单位
+                // If only a number is provided, automatically append the dp unit
                 "${value}dp"
             } else {
                 throw IllegalArgumentException("paddingStart must be a value ending with 'dp'")
@@ -96,7 +96,7 @@ class LinearLayoutProps {
             field = if (value == null || value.endsWith("dp")) {
                 value
             } else if (value.matches(Regex("\\d+"))) {
-                // 如果只提供了数字，则自动添加dp单位
+                // If only a number is provided, automatically append the dp unit
                 "${value}dp"
             } else {
                 throw IllegalArgumentException("paddingEnd must be a value ending with 'dp'")
@@ -118,7 +118,7 @@ class LinearLayoutProps {
             field = if (value == null || value.endsWith("dp")) {
                 value
             } else if (value.matches(Regex("\\d+"))) {
-                // 如果只提供了数字，则自动添加dp单位
+                // If only a number is provided, automatically append the dp unit
                 "${value}dp"
             } else {
                 throw IllegalArgumentException("marginStart must be null or a value ending with 'dp'")
@@ -130,7 +130,7 @@ class LinearLayoutProps {
             field = if (value == null || value.endsWith("dp")) {
                 value
             } else if (value.matches(Regex("\\d+"))) {
-                // 如果只提供了数字，则自动添加dp单位
+                // If only a number is provided, automatically append the dp unit
                 "${value}dp"
             } else {
                 throw IllegalArgumentException("marginEnd must be null or a value ending with 'dp'")
@@ -142,7 +142,7 @@ class LinearLayoutProps {
             field = if (value == null || value.endsWith("dp")) {
                 value
             } else if (value.matches(Regex("\\d+"))) {
-                // 如果只提供了数字，则自动添加dp单位
+                // If only a number is provided, automatically append the dp unit
                 "${value}dp"
             } else {
                 throw IllegalArgumentException("marginTop must be null or a value ending with 'dp'")
@@ -154,7 +154,7 @@ class LinearLayoutProps {
             field = if (value == null || value.endsWith("dp")) {
                 value
             } else if (value.matches(Regex("\\d+"))) {
-                // 如果只提供了数字，则自动添加dp单位
+                // If only a number is provided, automatically append the dp unit
                 "${value}dp"
             } else {
                 throw IllegalArgumentException("marginBottom must be null or a value ending with 'dp'")

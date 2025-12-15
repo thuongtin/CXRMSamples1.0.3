@@ -79,15 +79,15 @@ class DeviceInformationViewModel: ViewModel() {
         }
     }
     /**
-     * 获取设备所有信息
+     * Get all device information
      */
     fun getDeviceInformation(){
         CxrApi.getInstance().getGlassInfo(glassInfoCallback)
     }
 
     /**
-     * 监听电量
-     * @param toSet true: 监听，false: 取消监听
+     * Listen to battery level
+     * @param toSet true: start listening, false: stop listening
      */
     fun toSetBatteryListener(){
         val toSet = !_batteryListenerSet.value
@@ -101,8 +101,8 @@ class DeviceInformationViewModel: ViewModel() {
     }
 
     /**
-     * 监听亮度
-     * @param toSet true: 监听，false: 取消监听
+     * Listen to brightness
+     * @param toSet true: start listening, false: stop listening
      */
     fun toSetBrightnessListener(){
         val toSet = !_brightnessListenerSet.value
@@ -119,8 +119,8 @@ class DeviceInformationViewModel: ViewModel() {
     }
 
     /**
-     * 设置亮度
-     * @param level 亮度
+     * Set brightness
+     * @param level brightness
      */
     fun setBrightness(level: Int){
         val validLevel = level.coerceIn(0, 15)
@@ -141,8 +141,8 @@ class DeviceInformationViewModel: ViewModel() {
     }
 
     /**
-     * 监听音量变化
-     * @param toSet true: 监听，false: 取消监听
+     * Listen to volume changes
+     * @param toSet true: start listening, false: stop listening
      */
     fun toSetSoundVolumeListener(){
         val toSet = !_volumeListenerSet.value
@@ -158,8 +158,8 @@ class DeviceInformationViewModel: ViewModel() {
     }
 
     /**
-     * 设置音量
-     * @param level 音量 Range(0-100)
+     * Set volume
+     * @param level volume Range(0-100)
      */
     fun setSoundVolume(level: Int){
         val validLevel = level.coerceIn(0, 15)
@@ -180,8 +180,8 @@ class DeviceInformationViewModel: ViewModel() {
     }
 
     /**
-     * 监听屏幕状态
-     * @param toSet true: 监听，false: 取消监听
+     * Listen to screen status
+     * @param toSet true: start listening, false: stop listening
      */
     fun toSetScreenListener(){
         val toSet = !_screenListenerSet.value
@@ -198,7 +198,7 @@ class DeviceInformationViewModel: ViewModel() {
     }
 
     /**
-     * 通知眼镜熄屏
+     * Notify the glasses to turn the screen off
      */
     fun notifyScreenOff(){
         when(CxrApi.getInstance().notifyGlassScreenOff()){

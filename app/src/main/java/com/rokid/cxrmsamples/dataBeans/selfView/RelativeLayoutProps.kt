@@ -14,7 +14,7 @@ class RelativeLayoutProps {
             field = if (value == "match_parent" || value == "wrap_content" || value.endsWith("dp")) {
                 value
             } else if (value.matches(Regex("\\d+"))) {
-                // 如果只提供了数字，则自动添加dp单位
+                // If only a number is provided, automatically append the dp unit
                 "${value}dp"
             } else {
                 throw IllegalArgumentException("layout_width must be 'match_parent', 'wrap_content', or a value ending with 'dp'")
